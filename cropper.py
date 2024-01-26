@@ -2,15 +2,15 @@ import os
 from PIL import Image
 
 def crop_image(input_image_path, output_image_path):
-    image = Image.open(input_image_path)
-    image_data = image.getdata()
+    image = Image.open(input_image_path).convert("RGBA")
+    image_data = image.load()
 
     non_empty_pixels = False
     x_min, y_min, x_max, y_max = 0, 0, 0, 0
 
     for y in range(image.height):
         for x in range(image.width):
-            r, g, b, a = image_data.getpixel((x, y))
+            r, g, b, a = image_data[x, y]
             if a > 0:
                 if not non_empty_pixels:
                     non_empty_pixels = True
